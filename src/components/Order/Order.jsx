@@ -3,8 +3,8 @@ import { faDolly, faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-ic
 import React, { useState } from 'react';
 
 const Order = ({cart, clearCartFunc}) => {
-    let totalPrice = cart.reduce((prevVal,currVal)=> prevVal+currVal,0)
-    let totalShipping = (totalPrice/100 *5).toFixed(0)
+    let totalPrice = cart.reduce((prevVal,currCart)=> prevVal+currCart.price,0)
+    let totalShipping = cart.reduce((prevVal,currCart)=> prevVal+currCart.shipping,0).toFixed(0)
     let tax = (totalPrice/100*1).toFixed(0)
     let grandTotal = parseInt(totalPrice)+parseInt(totalShipping)+ parseInt(tax)
     return (

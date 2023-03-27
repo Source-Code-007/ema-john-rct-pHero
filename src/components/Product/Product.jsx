@@ -10,7 +10,7 @@ let Product = ({ product, cartFunc }) => {
                 <p className='text-xl font-semibold'>Price: {price}$</p>
                 <h3 className='text-xl font-semibold'>Category: {category}</h3>
                 <h2 className='text-xl font-semibold'>Manufacturer: {seller}</h2>
-                <button onClick={()=> cartFunc(price)} className='absolute bottom-2 left-2/4 -translate-x-2/4 bg-orange-500 rounded-lg px-4 py-2 font-bold text-slate-50 focus:outline-none'>Add to cart</button>
+                <button onClick={()=> cartFunc(product)} className='absolute bottom-2 left-2/4 -translate-x-2/4 bg-orange-500 rounded-lg px-4 py-2 font-bold text-slate-50 focus:outline-none'>Add to cart</button>
             </div>
         </div>
     )

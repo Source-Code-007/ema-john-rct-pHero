@@ -13,8 +13,8 @@ const Products = () => {
     }, [])
 
     // cartFunc
-    function cartFunc(price) {
-        let newCart = [...cart, price]
+    function cartFunc(product) {
+        let newCart = [...cart, product]
         setCart(newCart)
     }
     //clearCart
@@ -31,7 +31,7 @@ const Products = () => {
                         data.map(product => <Product cartFunc={cartFunc} product={product} key={product.id} />)
                     }
                 </div>
-                <div className='order col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
+                <div className='order sticky top-0 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
                     <Order cart={cart} clearCartFunc={clearCartFunc} />
                 </div>
             </div>
