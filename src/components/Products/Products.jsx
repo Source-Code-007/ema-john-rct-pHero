@@ -1,21 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import { fakeDB } from '../../utilities/fakeDB';
 import Order from '../Order/Order';
 import Product from '../Product/Product';
 
 const Products = () => {
-    let [data, setData] = useState([])
+    let [products, setProducts] = useState([])
     let [cart, setCart] = useState([])
 
+    // fetch json data
     useEffect(() => {
         fetch('products.json')
             .then(res => res.json())
-            .then(products => setData(products.slice(0, 6)))
+            .then(products => setProducts(products.slice(0, 6)))
     }, [])
 
+    //local storage
+    useEffect(() => {
+        let storedData = JSON.parse(localStorage.getItem('cartItem'))
+        let newArr = []
+        for (let id in storedData) {
+            let existProduct = products.find(product => product.id === id)
+            if (existProduct) {
+                existProduct.quantity = storedData[id]
+                newArr.push(existProduct)
+            }
+        };
+        // console.log(newArr);
+        setCart(newArr) //infinity loop
+    }, [products])
+
+    
     // cartFunc
     function cartFunc(product) {
         let newCart = [...cart, product]
         setCart(newCart)
+
+        fakeDB(product.id) //localStorage
     }
     //clearCart
     function clearCartFunc() {
@@ -28,7 +48,7 @@ const Products = () => {
             <div className='grid grid-cols-12 gap-4'>
                 <div className='products col-span-9 grid grid-cols-3 gap-5'>
                     {
-                        data.map(product => <Product cartFunc={cartFunc} product={product} key={product.id} />)
+                        products.map(product => <Product cartFunc={cartFunc} product={product} key={product.id} />)
                     }
                 </div>
                 <div className='order sticky top-0 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
