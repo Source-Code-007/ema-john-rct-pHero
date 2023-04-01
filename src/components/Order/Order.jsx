@@ -3,15 +3,15 @@ import { faDolly, faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-ic
 import React, { useState } from 'react';
 
 const Order = ({cart, clearCartFunc}) => {
-    console.log(cart); 
+    let totalQuantity = cart.reduce((prevVal,currCart)=> prevVal+currCart.quantity,0)
     let totalPrice = cart.reduce((prevVal,currCart)=> prevVal+(currCart.price * currCart.quantity),0)
-    let totalShipping = cart.reduce((prevVal,currCart)=> prevVal+currCart.shipping,0).toFixed(0)
+    let totalShipping = cart.reduce((prevVal,currCart)=> prevVal+(currCart.shipping * currCart.quantity),0).toFixed(0)
     let tax = (totalPrice/100*1).toFixed(0)
     let grandTotal = parseInt(totalPrice)+parseInt(totalShipping)+ parseInt(tax)
     return (
             <div className="order-summary p-4 space-y-4">
                 <h2 className='font-bold text-2xl text-center py-5'>Order Summary</h2>
-                <p className='font-semibold text-lg'>Selected Items: {cart.length}</p>
+                <p className='font-semibold text-lg'>Selected Items: {totalQuantity}</p>
                 <p className='font-semibold text-lg'>Total Price: ${totalPrice}</p>
                 <p className='font-semibold text-lg'>Total Shipping Charge: ${totalShipping}</p>
                 <p className='font-semibold text-lg'>Tax: {tax} </p>

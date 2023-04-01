@@ -11,10 +11,10 @@ const Products = () => {
     useEffect(() => {
         fetch('products.json')
             .then(res => res.json())
-            .then(products => setProducts(products.slice(0, 6)))
+            .then(products => setProducts(products))
     }, [])
 
-    //local storage
+    //get data from local storage
     useEffect(() => {
         let storedData = JSON.parse(localStorage.getItem('cartItem'))
         let newArr = []
@@ -29,14 +29,27 @@ const Products = () => {
         setCart(newArr) //infinity loop
     }, [products])
 
-    
+
     // cartFunc
     function cartFunc(product) {
-        let newCart = [...cart, product]
+        // let newCart = [...cart, product]
+
+        // We are updating the quantity for an existing product and add a new product with 1 quantity. 
+        let newCart = []
+        let existProduct = cart.find(pd => pd.id === product.id)
+        if (existProduct) {
+            existProduct.quantity += 1
+            let restProduct = cart.filter(pd => pd.id !== product.id)
+            newCart = [...restProduct, existProduct]
+        } else {
+            product.quantity = 1
+            newCart = [...cart, product]
+        }
         setCart(newCart)
 
         fakeDB(product.id) //localStorage
     }
+
     //clearCart
     function clearCartFunc() {
         setCart([])
