@@ -1,12 +1,13 @@
+import { Outlet } from 'react-router-dom'
 import './App.css'
-import Navbar from './components/navbar/Navbar'
+import Nav from './components/Nav/Nav'
 import Products from './components/Products/Products'
 
 function App() {
   return (
     <>
-    <Navbar />
-    <Products />
+    <Nav></Nav>
+    <Outlet></Outlet>
     </>
   )
 }

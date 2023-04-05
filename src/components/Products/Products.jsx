@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fakeDB } from '../../utilities/fakeDB';
-import Order from '../Order/Order';
+import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
+import { useLoaderData } from 'react-router-dom';
 
 const Products = () => {
     let [products, setProducts] = useState([])
@@ -15,25 +16,28 @@ const Products = () => {
     }, [])
 
     //get data from local storage
-    useEffect(() => {
-        let storedData = JSON.parse(localStorage.getItem('cartItem'))
-        let newArr = []
-        for (let id in storedData) {
-            let existProduct = products.find(product => product.id === id)
-            if (existProduct) {
-                existProduct.quantity = storedData[id]
-                newArr.push(existProduct)
-            }
-        };
-        // console.log(newArr);
-        setCart(newArr) //infinity loop
-    }, [products])
+    // useEffect(() => {
+    //     let storedData = JSON.parse(localStorage.getItem('cartItem'))
+    //     let newArr = []
+    //     for (let id in storedData) {
+    //         let existProduct = products.find(product => product.id === id)
+    //         if (existProduct) {
+    //             existProduct.quantity = storedData[id]
+    //             newArr.push(existProduct)
+    //         }
+    //     };
+    //     // console.log(newArr);
+    //     setCart(newArr) //infinity loop
+    // }, [products])
 
+    // get data from local storage using custom hook
+    let storedCart = useLoaderData()
+    useEffect(()=>{
+        setCart(storedCart)
+    }, [products])
 
     // cartFunc
     function cartFunc(product) {
-        // let newCart = [...cart, product]
-
         // We are updating the quantity for an existing product and add a new product with 1 quantity. 
         let newCart = []
         let existProduct = cart.find(pd => pd.id === product.id)
@@ -50,10 +54,6 @@ const Products = () => {
         fakeDB(product.id) //localStorage
     }
 
-    //clearCart
-    function clearCartFunc() {
-        setCart([])
-    }
 
     return (
         <div className='container max-w-7xl mx-auto py-14 space-y-10'>
@@ -64,8 +64,8 @@ const Products = () => {
                         products.map(product => <Product cartFunc={cartFunc} product={product} key={product.id} />)
                     }
                 </div>
-                <div className='order sticky top-0 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
-                    <Order cart={cart} clearCartFunc={clearCartFunc} />
+                <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
+                    <Cart cart={cart} clearCartFunc={()=> setCart([])} />
                 </div>
             </div>
         </div>

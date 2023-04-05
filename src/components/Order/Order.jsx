@@ -1,24 +1,28 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDolly, faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react';
+import Cart from '../Cart/Cart';
+import { useLoaderData } from 'react-router-dom';
+import OrderReview from '../OrderReview/OrderReview';
 
-const Order = ({cart, clearCartFunc}) => {
-    let totalQuantity = cart.reduce((prevVal,currCart)=> prevVal+currCart.quantity,0)
-    let totalPrice = cart.reduce((prevVal,currCart)=> prevVal+(currCart.price * currCart.quantity),0)
-    let totalShipping = cart.reduce((prevVal,currCart)=> prevVal+(currCart.shipping * currCart.quantity),0).toFixed(0)
-    let tax = (totalPrice/100*1).toFixed(0)
-    let grandTotal = parseInt(totalPrice)+parseInt(totalShipping)+ parseInt(tax)
+const Order = () => {
+    let products = useLoaderData()
+    let [storedProducts, setStoredProducts] = useState(products)
+
+    // delete product functionality
+    function deleteItems(product){
+        let deleteProduct = storedProducts.filter(dltPd => dltPd.id !== product.id)
+        setStoredProducts(deleteProduct)
+    }
     return (
-            <div className="order-summary p-4 space-y-4">
-                <h2 className='font-bold text-2xl text-center py-5'>Order Summary</h2>
-                <p className='font-semibold text-lg'>Selected Items: {totalQuantity}</p>
-                <p className='font-semibold text-lg'>Total Price: ${totalPrice}</p>
-                <p className='font-semibold text-lg'>Total Shipping Charge: ${totalShipping}</p>
-                <p className='font-semibold text-lg'>Tax: {tax} </p>
-                <p className='font-semibold text-lg'>Grand Total: ${grandTotal}</p>
-                <button onClick={clearCartFunc} className='block bg-red-500 rounded-lg font-bold text-slate-50 w-full'>Clear Cart { <FontAwesomeIcon icon={faDolly} /> }</button>
-                <button className='block bg-green-500 rounded-lg font-bold text-slate-50 w-full'>Review Order {<FontAwesomeIcon icon={faMagnifyingGlassDollar} />}</button>
+        <section className='grid grid-cols-12 py-20 gap-14 max-w-7xl mx-10 xl:mx-auto'>
+            <div className='col-span-8 px-14 space-y-5'>
+                {
+                    storedProducts.map(product => <OrderReview deleteItems={deleteItems} key={product.id} product={product} />)
+                }
             </div>
+            <div className='col-span-4 sticky top-2 self-baseline bg-orange-200 rounded-lg'>
+                <Cart cart={storedProducts} clearCartFunc={()=>setStoredProducts([])}></Cart>
+            </div>
+        </section>
     );
 };
 
