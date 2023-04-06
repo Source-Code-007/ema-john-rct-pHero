@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { fakeDB } from '../../utilities/fakeDB';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-icons';
 
 const Products = () => {
     let [products, setProducts] = useState([])
@@ -14,6 +16,7 @@ const Products = () => {
             .then(res => res.json())
             .then(products => setProducts(products))
     }, [])
+
 
     //get data from local storage
     // useEffect(() => {
@@ -32,7 +35,7 @@ const Products = () => {
 
     // get data from local storage using custom hook
     let storedCart = useLoaderData()
-    useEffect(()=>{
+    useEffect(() => {
         setCart(storedCart)
     }, [products])
 
@@ -65,7 +68,9 @@ const Products = () => {
                     }
                 </div>
                 <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
-                    <Cart cart={cart} clearCartFunc={()=> setCart([])} />
+                    <Cart cart={cart} clearCartFunc={() => setCart([])}>
+                        <Link to='/order'><button className='block mt-3 bg-green-500 rounded-lg font-bold text-slate-50 w-full'>Review Order {<FontAwesomeIcon icon={faMagnifyingGlassDollar} />}</button></Link>
+                    </Cart>
                 </div>
             </div>
         </div>

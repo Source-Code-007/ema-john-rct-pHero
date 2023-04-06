@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Cart from '../Cart/Cart';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import OrderReview from '../OrderReview/OrderReview';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-icons';
 
 const Order = () => {
     let storedCart = useLoaderData()
@@ -29,7 +31,9 @@ const Order = () => {
                 }
             </div>
             <div className='col-span-4 sticky top-2 self-baseline bg-orange-200 rounded-lg'>
-                <Cart cart={cart} clearCartFunc={() => setCart([])}></Cart>
+                <Cart cart={cart} clearCartFunc={() => setCart([])}>
+                    <Link to='/checkout'><button className='block mt-3 bg-green-500 rounded-lg font-bold text-slate-50 w-full'>Proceed to checkout {<FontAwesomeIcon icon={faMagnifyingGlassDollar} />}</button></Link>
+                </Cart>
             </div>
         </section>
     );

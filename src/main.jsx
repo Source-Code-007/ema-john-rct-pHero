@@ -9,6 +9,7 @@ import {
 import Products from './components/Products/Products';
 import Order from './components/Order/Order';
 import { storedCart } from './utilities/storedCart';
+import Checkout from './components/Checkout/Checkout';
 
 let router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ let router = createBrowserRouter([
         path: '/order',
         element: <Order></Order>,
         loader: storedCart
+      },
+      {
+        path: '/checkout',
+        element: <Checkout/>
       }
     ]
   }
