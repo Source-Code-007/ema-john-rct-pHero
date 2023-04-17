@@ -10,6 +10,9 @@ import Products from './components/Products/Products';
 import Order from './components/Order/Order';
 import { storedCart } from './utilities/storedCart';
 import Checkout from './components/Checkout/Checkout';
+import Signin from './components/Signin/Signin';
+import SignUp from './components/SignUp/SignUp';
+import AuthContext from './context/AuthContext';
 
 let router = createBrowserRouter([
   {
@@ -20,6 +23,14 @@ let router = createBrowserRouter([
         path: '/',
         element: <Products></Products>,
         loader: storedCart
+      },
+      {
+        path: '/signin',
+        element: <Signin></Signin>
+      },
+      {
+        path: '/signup',
+        element: <SignUp />,
       },
       {
         path: '/products',
@@ -33,7 +44,7 @@ let router = createBrowserRouter([
       },
       {
         path: '/checkout',
-        element: <Checkout/>
+        element: <Checkout />
       }
     ]
   }
@@ -41,6 +52,8 @@ let router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthContext>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthContext>
   </React.StrictMode>,
 )

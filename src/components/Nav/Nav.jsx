@@ -22,6 +22,8 @@ const Nav = () => {
                     <li><NavLink to="/products" className= {({ isActive }) => `px-4 py-3 text-slate-50 ${isActive ? 'border-b-2 border-red-500' : ''}`}>Products</NavLink></li>
                     <li><NavLink to="/order" className= {({ isActive }) => `px-4 py-3 text-slate-50 ${isActive ? 'border-b-2 border-red-500' : ''}`}>Order</NavLink></li>
                     <li><NavLink to="/services" className= {({ isActive }) => `px-4 py-3 text-slate-50 ${isActive ? 'border-b-2 border-red-500' : ''}`}>Services</NavLink></li>
+                    <li><NavLink to="/signin" className= {({ isActive }) => `px-4 py-3 text-slate-50 ${isActive ? 'border-b-2 border-red-500' : ''}`}>Signin</NavLink></li>
+                    <li><NavLink to="/signup" className= {({ isActive }) => `px-4 py-3 text-slate-50 ${isActive ? 'border-b-2 border-red-500' : ''}`}>SignUp</NavLink></li>
                 </ul>
             </div>
             <div className="navbar-end hidden md:flex">
