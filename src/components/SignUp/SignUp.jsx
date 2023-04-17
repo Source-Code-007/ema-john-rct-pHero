@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import { authContext } from '../../context/AuthContext';
 
 const SignUp = () => {
-    const userContext = useContext(authContext)
-    console.log(userContext);
+    const {name} = useContext(authContext)
+
+    console.log(name);
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col w-full">
