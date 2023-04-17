@@ -2,20 +2,19 @@ import React, { useContext } from 'react';
 import { authContext } from '../../context/AuthContext';
 
 const SignUp = () => {
-    const {createUser, updateNewUser} = useContext(authContext)
+    const { signUpUser, updateNewUser } = useContext(authContext)
 
     // submit function handle
-    const handleSubmitFunc = (e)=> {
+    const handleSubmitFunc = (e) => {
         e.preventDefault()
 
         const name = e.target.name.value
         const email = e.target.email.value
         const password = e.target.password.value
-        console.log(name, email, password);
-        createUser(email, password).then(res=> {
+        // console.log(name, email, password);
+        signUpUser(email, password).then(res => {
             console.log('user created successful');
-            console.log(res.user);
-            updateNewUser(name, res.user).then(()=> {
+            updateNewUser(name, res.user).then(() => {
                 console.log('update user profile info');
             }).catch(e => {
                 console.log(e.message);

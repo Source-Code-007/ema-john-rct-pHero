@@ -1,15 +1,27 @@
-import React, { createContext } from 'react';
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import React, { createContext, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { app } from '../firebase/firebase.config';
 
 const auth = getAuth(app)
 export const authContext = createContext()
+
 const AuthContext = ({ children }) => {
+    let [user, setUser] = useState('')
 
     // new user create func
-    const createUser = (email, password) => {
+    const signUpUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
+
+    // signin function
+    const signInUser = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    // signout function
+    const signOutUser = ()=> {
+        return signOut(auth)
+    } 
 
     // update new user info
     const updateNewUser = (displayName, currentUser) => {
@@ -19,8 +31,12 @@ const AuthContext = ({ children }) => {
     }
     // globally shared data by object
     const authObj = {
-        createUser, 
-        updateNewUser
+        signUpUser,
+        signInUser,
+        signOutUser,
+        updateNewUser,
+        user, 
+        setUser
     }
 
     return (
