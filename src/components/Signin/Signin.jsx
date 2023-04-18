@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
 import { authContext } from '../../context/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Signin = () => {
-    const {signInUser, user, setUser} = useContext(authContext)
+    const {signInUser, setUser} = useContext(authContext)
+
+    const navigate = useNavigate()
+    const location = useLocation() 
 
     // sign in handle function
     const handleSubmitFunc = (e)=> {
@@ -13,6 +17,7 @@ const Signin = () => {
             const user = res.user
             console.log('signin successful', user);
             setUser(user)
+            navigate( location.state?.from?.pathname || '/')
         }).catch(e => {
             console.log(e.message);
         })
