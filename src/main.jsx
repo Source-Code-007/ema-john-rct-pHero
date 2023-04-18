@@ -13,6 +13,7 @@ import Checkout from './components/Checkout/Checkout';
 import Signin from './components/Signin/Signin';
 import SignUp from './components/SignUp/SignUp';
 import AuthContext from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 let router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ let router = createBrowserRouter([
       },
       {
         path: '/checkout',
-        element: <Checkout />
+        element: <PrivateRoute><Checkout /></PrivateRoute>
       }
     ]
   }
