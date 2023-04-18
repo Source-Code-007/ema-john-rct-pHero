@@ -1,5 +1,5 @@
-import React, { createContext, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import React, { createContext, useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { app } from '../firebase/firebase.config';
 
 const auth = getAuth(app)
@@ -7,6 +7,7 @@ export const authContext = createContext()
 
 const AuthContext = ({ children }) => {
     let [user, setUser] = useState('')
+    const [loading, setLoading] = useState(true)
 
     // new user create func
     const signUpUser = (email, password) => {
@@ -23,12 +24,21 @@ const AuthContext = ({ children }) => {
         return signOut(auth)
     } 
 
+    // hold/store signin user
+    useEffect(()=>{
+        onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser)
+            setLoading(false)
+        })
+    }, [])
+
     // update new user info
     const updateNewUser = (displayName, currentUser) => {
         return updateProfile(currentUser, {
             displayName: displayName,
         })
     }
+
     // globally shared data by object
     const authObj = {
         signUpUser,
@@ -36,7 +46,8 @@ const AuthContext = ({ children }) => {
         signOutUser,
         updateNewUser,
         user, 
-        setUser
+        setUser,
+        loading
     }
 
     return (
