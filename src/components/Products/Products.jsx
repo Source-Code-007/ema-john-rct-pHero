@@ -7,15 +7,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-icons';
 
 const Products = () => {
+    let [totalProducts, setTotalProducts] = useState([])
     let [products, setProducts] = useState([])
     let [cart, setCart] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+
+    // fetch total products for pagination button
+    useEffect(() => {
+        fetch(`http://localhost:1000/products`)
+            .then(res => res.json())
+            .then(tProducts => setTotalProducts(tProducts))
+    }, [])
 
     // fetch json data
     useEffect(() => {
-        fetch('http://localhost:1000/products')
+        fetch(`http://localhost:1000/products?currentPage=${currentPage}&limit=${itemsPerPage}`)
             .then(res => res.json())
             .then(products => setProducts(products))
-    }, [])
+    }, [currentPage, itemsPerPage])
 
     // get data from local storage using custom hook
     let storedCart = useLoaderData()
@@ -48,10 +58,10 @@ const Products = () => {
     }
 
 
-    // For pagination
-    const [currentPage, setCurrentPage] = useState(1)
-    const totalProductPerPage = Math.ceil(products.length / 10)
+    // For pagination (actually for pagination button)
+    const totalProductPerPage = Math.ceil(totalProducts.length / itemsPerPage)
     const totalPage = [...Array(totalProductPerPage).keys()]
+    console.log(totalProducts.length);
 
 
     return (
@@ -68,7 +78,7 @@ const Products = () => {
                         <p>Current Page: {currentPage}</p>
                         {
                             totalPage && totalPage.map((pageNumber) => {
-                               return <button onClick={()=> setCurrentPage(pageNumber)} key={pageNumber} className={`btn ${currentPage === pageNumber? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber+1}</button>
+                                return <button onClick={() => setCurrentPage(pageNumber + 1)} key={pageNumber} className={`${pageNumber + 1 === currentPage ? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber + 1}</button>
                             })
                         }
                     </div>
