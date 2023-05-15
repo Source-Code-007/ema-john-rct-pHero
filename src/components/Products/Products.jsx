@@ -17,22 +17,6 @@ const Products = () => {
             .then(products => setProducts(products))
     }, [])
 
-
-    //get data from local storage
-    // useEffect(() => {
-    //     let storedData = JSON.parse(localStorage.getItem('cartItem'))
-    //     let newArr = []
-    //     for (let id in storedData) {
-    //         let existProduct = products.find(product => product.id === id)
-    //         if (existProduct) {
-    //             existProduct.quantity = storedData[id]
-    //             newArr.push(existProduct)
-    //         }
-    //     };
-    //     // console.log(newArr);
-    //     setCart(newArr) //infinity loop
-    // }, [products])
-
     // get data from local storage using custom hook
     let storedCart = useLoaderData()
     useEffect(() => {
@@ -57,21 +41,37 @@ const Products = () => {
         storedInLS(product._id) //localStorage
     }
 
-      // clear cart 
-      const handleClearCart = ()=>{
+    // clear cart 
+    const handleClearCart = () => {
         setCart([])
         clearLS()
     }
+
+
+    // For pagination
+    const [currentPage, setCurrentPage] = useState(1)
+    const totalProductPerPage = Math.ceil(products.length / 10)
+    const totalPage = [...Array(totalProductPerPage).keys()]
 
 
     return (
         <div className='container max-w-7xl mx-auto py-14 space-y-10'>
             <h2 className='font-bold text-center text-4xl'>Your Products</h2>
             <div className='grid grid-cols-12 gap-4'>
-                <div className='products col-span-9 grid grid-cols-3 gap-5'>
-                    {
-                        products.map(product => <Product cartFunc={cartFunc} product={product} key={product._id} />)
-                    }
+                <div className='col-span-9'>
+                    <div className=' grid grid-cols-3 gap-5'>
+                        {
+                            products.map(product => <Product cartFunc={cartFunc} product={product} key={product._id} />)
+                        }
+                    </div>
+                    <div className='text-center my-4 space-x-2'>
+                        <p>Current Page: {currentPage}</p>
+                        {
+                            totalPage && totalPage.map((pageNumber) => {
+                               return <button onClick={()=> setCurrentPage(pageNumber)} key={pageNumber} className={`btn ${currentPage === pageNumber? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber+1}</button>
+                            })
+                        }
+                    </div>
                 </div>
                 <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
                     <Cart cart={cart} clearCartFunc={handleClearCart}>
