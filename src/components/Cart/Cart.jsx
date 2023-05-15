@@ -16,7 +16,7 @@ const Cart = ({ cart, clearCartFunc, children }) => {
             <p>Total Shipping Charge: ${totalShipping}</p>
             <p>Tax: {tax} </p>
             <p>Grand Total: ${grandTotal}</p>
-            <button onClick={clearCartFunc} className='block bg-red-500 rounded-lg font-bold text-slate-50 w-full'>Clear Cart {<FontAwesomeIcon icon={faDolly} />}</button>
+            <button onClick={clearCartFunc} disabled={!cart.length? true : false} className={`block ${!cart.length? 'bg-red-200' : 'bg-red-500'} rounded-lg font-bold text-slate-50 w-full`}>Clear Cart {<FontAwesomeIcon icon={faDolly} />}</button>
             {children}
         </div>
     );

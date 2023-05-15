@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fakeDB } from '../../utilities/fakeDB';
+import { clearLS, storedInLS } from '../../utilities/fakeDB';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import { Link, useLoaderData } from 'react-router-dom';
@@ -54,7 +54,13 @@ const Products = () => {
         }
         setCart(newCart)
 
-        fakeDB(product.id) //localStorage
+        storedInLS(product.id) //localStorage
+    }
+
+      // clear cart 
+      const handleClearCart = ()=>{
+        setCart([])
+        clearLS()
     }
 
 
@@ -68,7 +74,7 @@ const Products = () => {
                     }
                 </div>
                 <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
-                    <Cart cart={cart} clearCartFunc={() => setCart([])}>
+                    <Cart cart={cart} clearCartFunc={handleClearCart}>
                         <Link to='/order'><button className='block mt-3 bg-green-500 rounded-lg font-bold text-slate-50 w-full'>Review Order {<FontAwesomeIcon icon={faMagnifyingGlassDollar} />}</button></Link>
                     </Cart>
                 </div>

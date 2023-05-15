@@ -28,10 +28,13 @@ const AuthContext = ({ children }) => {
 
     // hold/store signin user
     useEffect(()=>{
-        onAuthStateChanged(auth, currentUser => {
+       const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
             setLoading(false)
         })
+        return ()=>{
+            unsubscribe()
+        }
     }, [])
 
     // update new user info

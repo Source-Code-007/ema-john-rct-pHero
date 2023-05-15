@@ -8,12 +8,12 @@ import {
 } from "react-router-dom";
 import Products from './components/Products/Products';
 import Order from './components/Order/Order';
-import { storedCart } from './utilities/storedCart';
 import Checkout from './components/Checkout/Checkout';
 import Signin from './components/Signin/Signin';
 import SignUp from './components/SignUp/SignUp';
 import AuthContext from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { getFromLS } from './utilities/fakeDB';
 
 let router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ let router = createBrowserRouter([
       {
         path: '/',
         element: <Products></Products>,
-        loader: storedCart
+        loader: getFromLS
       },
       {
         path: '/signin',
@@ -36,12 +36,12 @@ let router = createBrowserRouter([
       {
         path: '/products',
         element: <Products></Products>,
-        loader: storedCart
+        loader: getFromLS
       },
       {
         path: '/order',
         element: <Order></Order>,
-        loader: storedCart
+        loader: getFromLS
       },
       {
         path: '/checkout',

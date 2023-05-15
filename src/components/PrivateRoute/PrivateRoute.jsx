@@ -3,10 +3,9 @@ import { authContext } from '../../context/AuthContext';
 import { Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({children}) => {
-    const {user} = useContext(authContext)
+    const { user, loading } = useContext(authContext)
     const location = useLocation()
     console.log(location);
-    const { loading } = useContext(authContext)
 
         if(loading){
             return <div className='h-screen flex justify-center items-center'>
@@ -14,11 +13,11 @@ const PrivateRoute = ({children}) => {
             </div>
         }
 
-        if(user){
-            return children
+        if(!user){
+            return <Navigate to={'/signin'} state={{from: location}} replace></Navigate>
         }
-
-        return <Navigate to={'/signin'} state={{from: location}} replace></Navigate>
+        
+        return children
 
 };
 
