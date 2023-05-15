@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { authContext } from '../../context/AuthContext';
 
 const SignUp = () => {
-    const { signUpUser, updateNewUser } = useContext(authContext)
+    const [success, setSuccess] = useState('')
+    const [error, setError] = useState('')
+    const { signUpUser, updateNewUser, signOutUser } = useContext(authContext)
 
     // submit function handle
     const handleSubmitFunc = (e) => {
+        setSuccess('')
+        setError('')
         e.preventDefault()
 
         const name = e.target.name.value
@@ -13,14 +17,14 @@ const SignUp = () => {
         const password = e.target.password.value
         // console.log(name, email, password);
         signUpUser(email, password).then(res => {
-            console.log('user created successful');
+            signOutUser()
             updateNewUser(name, res.user).then(() => {
-                console.log('update user profile info');
+                setSuccess('user created successful')
             }).catch(e => {
                 console.log(e.message);
             })
         }).catch(e => {
-            console.log(e.message);
+            setError(e.message)
         })
     }
 
@@ -54,6 +58,8 @@ const SignUp = () => {
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
+                        {success && <h2 className='text-green-500'>{success}</h2>}
+                        {error && <h2 className='text-red-500'>{error}</h2>}
                         <div className="form-control mt-6">
                             <button type='submit' className="btn btn-primary">Register</button>
                         </div>
