@@ -13,13 +13,13 @@ const Order = () => {
     // delete product functionality
     function deleteItems(product) {
         // delete items from cart
-        let deleteProduct = cart.filter(dltPd => dltPd.id !== product.id)
+        let deleteProduct = cart.filter(dltPd => dltPd._id !== product._id)
         setCart(deleteProduct)
 
         // delete items from local storage
         let localStorageData = JSON.parse(localStorage.getItem('cartItem'))
-        if (product.id in localStorageData) {
-            delete localStorageData[product.id]
+        if (product._id in localStorageData) {
+            delete localStorageData[product._id]
         }
         localStorage.setItem('cartItem', JSON.stringify(localStorageData))
     }
@@ -35,7 +35,7 @@ const Order = () => {
             <div className='col-span-8 px-14 space-y-5'>
                 {
                     cart.length?
-                    cart.map(product => <OrderReview deleteItems={deleteItems} key={product.id} product={product} />)
+                    cart.map(product => <OrderReview deleteItems={deleteItems} key={product._id} product={product} />)
                     : <h2 className='font-bold text-3xl h-[50vh] flex items-center justify-center'>No item available</h2>
                 }
             </div>

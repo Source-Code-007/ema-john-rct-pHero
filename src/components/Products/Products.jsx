@@ -12,7 +12,7 @@ const Products = () => {
 
     // fetch json data
     useEffect(() => {
-        fetch('products.json')
+        fetch('http://localhost:1000/products')
             .then(res => res.json())
             .then(products => setProducts(products))
     }, [])
@@ -43,10 +43,10 @@ const Products = () => {
     function cartFunc(product) {
         // We are updating the quantity for an existing product and add a new product with 1 quantity. 
         let newCart = []
-        let existProduct = cart.find(pd => pd.id === product.id)
+        let existProduct = cart.find(pd => pd._id === product._id)
         if (existProduct) {
             existProduct.quantity += 1
-            let restProduct = cart.filter(pd => pd.id !== product.id)
+            let restProduct = cart.filter(pd => pd._id !== product._id)
             newCart = [...restProduct, existProduct]
         } else {
             product.quantity = 1
@@ -54,7 +54,7 @@ const Products = () => {
         }
         setCart(newCart)
 
-        storedInLS(product.id) //localStorage
+        storedInLS(product._id) //localStorage
     }
 
       // clear cart 
@@ -70,7 +70,7 @@ const Products = () => {
             <div className='grid grid-cols-12 gap-4'>
                 <div className='products col-span-9 grid grid-cols-3 gap-5'>
                     {
-                        products.map(product => <Product cartFunc={cartFunc} product={product} key={product.id} />)
+                        products.map(product => <Product cartFunc={cartFunc} product={product} key={product._id} />)
                     }
                 </div>
                 <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>

@@ -15,14 +15,14 @@ const  storedInLS = (id) => {
  };
 
  const getFromLS =  async () => {
-    let res = await fetch('products.json')
+    let res = await fetch('http://localhost:1000/products')
     let products = await res.json()
 
     let storedData = JSON.parse(localStorage.getItem('cartItem'))
     // console.log(storedData);
     let storedProducts = []
     for (const id in storedData){
-        let existProduct = products.find(pd => pd.id === id)
+        let existProduct = products.find(pd => pd._id === id)
         if(existProduct){
             existProduct.quantity = storedData[id]
             storedProducts.push(existProduct)
