@@ -10,8 +10,8 @@ const Products = () => {
     let [totalProducts, setTotalProducts] = useState([])
     let [products, setProducts] = useState([])
     let [cart, setCart] = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentPage, setCurrentPage] = useState(0)
+    const [itemsPerPage, setItemsPerPage] = useState(15)
 
     // fetch total products for pagination button
     useEffect(() => {
@@ -31,7 +31,7 @@ const Products = () => {
     let storedCart = useLoaderData()
     useEffect(() => {
         setCart(storedCart)
-    }, [products])
+    }, [])
 
     // cartFunc
     function cartFunc(product) {
@@ -78,7 +78,7 @@ const Products = () => {
                         <p>Current Page: {currentPage}</p>
                         {
                             totalPage && totalPage.map((pageNumber) => {
-                                return <button onClick={() => setCurrentPage(pageNumber + 1)} key={pageNumber} className={`${pageNumber + 1 === currentPage ? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber + 1}</button>
+                                return <button onClick={() => setCurrentPage(pageNumber)} key={pageNumber} className={`${pageNumber === currentPage ? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber}</button>
                             })
                         }
                     </div>
