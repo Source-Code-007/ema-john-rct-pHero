@@ -23,7 +23,6 @@ const Order = () => {
         }
         localStorage.setItem('cartItem', JSON.stringify(localStorageData))
     }
-
     // clear cart 
     const handleClearCart = ()=>{
         setCart([])

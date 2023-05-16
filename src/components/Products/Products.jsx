@@ -5,6 +5,7 @@ import Product from '../Product/Product';
 import { Link, useLoaderData } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlassDollar } from '@fortawesome/free-solid-svg-icons';
+import { Dna } from 'react-loader-spinner';
 
 const Products = () => {
     let [totalProducts, setTotalProducts] = useState([])
@@ -69,19 +70,33 @@ const Products = () => {
             <h2 className='font-bold text-center text-4xl'>Your Products</h2>
             <div className='grid grid-cols-12 gap-4'>
                 <div className='col-span-9'>
-                    <div className=' grid grid-cols-3 gap-5'>
-                        {
-                            products.map(product => <Product cartFunc={cartFunc} product={product} key={product._id} />)
-                        }
-                    </div>
-                    <div className='text-center my-4 space-x-2'>
-                        <p>Current Page: {currentPage}</p>
-                        {
-                            totalPage && totalPage.map((pageNumber) => {
-                                return <button onClick={() => setCurrentPage(pageNumber)} key={pageNumber} className={`${pageNumber === currentPage ? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber}</button>
-                            })
-                        }
-                    </div>
+                    {
+                        products.length ? <>
+                            <div className=' grid grid-cols-3 gap-5'>
+                                {
+                                    products.map(product => <Product cartFunc={cartFunc} product={product} key={product._id} />)
+                                }
+                            </div>
+                            <div className='text-center my-4 space-x-2'>
+                                <p>Current Page: {currentPage}</p>
+                                {
+                                    totalPage && totalPage.map((pageNumber) => {
+                                        return <button onClick={() => setCurrentPage(pageNumber)} key={pageNumber} className={`${pageNumber === currentPage ? 'bg-green-500' : 'bg-green-200'}`}>{pageNumber}</button>
+                                    })
+                                }
+                            </div>
+                        </>
+                            : <div className='h-[50vh] flex justify-center items-center'>
+                                <Dna
+                                    visible={true}
+                                    height="80"
+                                    width="80"
+                                    ariaLabel="dna-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClass="dna-wrapper"
+                                />
+                            </div>
+                    }
                 </div>
                 <div className='cart sticky top-6 col-span-3 self-baseline bg-orange-200 h-auto rounded-lg'>
                     <Cart cart={cart} clearCartFunc={handleClearCart}>

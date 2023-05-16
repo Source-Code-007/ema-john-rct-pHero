@@ -12,6 +12,7 @@ const OrderReview = ({ product, deleteItems }) => {
                     <h3>Name: {name}</h3>
                     <p>Price: {price}$</p>
                     <p>Shipping: {shipping}$</p>
+                    <p>Product Quantity: {quantity}$</p>
                 </div>
             </div>
             <div>
